@@ -1,11 +1,15 @@
 import geopandas as gpd
 import pandas as pd
+import streamlit as st
 
+
+@st.cache_data
 def load_county_data(path):
     gdf = gpd.read_file(path)
     cornbelt_fips = ['19', '17', '31', '20', '18', '27']  # IA, IL, NE, KS, IN, MN
     return gdf[gdf['STATEFP'].isin(cornbelt_fips)]
 
+@st.cache_data
 def load_ndvi_csv(path):
     df = pd.read_csv(path)
     df = df[df["value"] < 9999]  # remove fill values
