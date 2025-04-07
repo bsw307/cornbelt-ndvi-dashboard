@@ -5,16 +5,20 @@ from streamlit_folium import st_folium
 from utils.data_loader import load_county_data, load_ndvi_csv
 from utils.ndvi_mapper import ndvi_csv_to_geodf, map_ndvi_to_counties
 # Hides Streamlit's default UI
-hide_streamlit_style = """
+
+st.markdown("""
     <style>
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
-    .stDeployButton {display: none;}
-    .stToolbar {display: none;}
+    #MainMenu, header, footer, .stDeployButton, .st-emotion-cache-1avcm0n {
+        display: none !important;
+    }
+    .block-container {
+        padding: 0 !important;
+    }
+    body {
+        overflow: hidden;
+    }
     </style>
-"""
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 # Load data
 counties = load_county_data("data/cornbelt_counties.shp")
 ndvi_df = load_ndvi_csv("data/ndvi_sample.csv")
@@ -36,5 +40,5 @@ folium.Choropleth(
 ).add_to(m)
 
 # Display map
-st.title("Corn Belt NDVI Map")
+#st.title("Corn Belt NDVI Map")
 st_data = st_folium(m, width=700, height=500)
