@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.env/
+.venv/
+*.sqlite3
+
+# Streamlit cache
+.streamlit/
+
+# Pyenv environments (if accidentally inside project)
+.python-version
+
+# Data
+data/*.csv
+data/*.zip
+*.shp
+*.dbf
+*.shx
+*.prj
+
+# Mac stuff
+.DS_Store
