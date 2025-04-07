@@ -13,12 +13,20 @@ __pycache__/
 .python-version
 
 # Data
-data/*.csv
-data/*.zip
 *.shp
-*.dbf
 *.shx
+*.dbf
 *.prj
+*.cpg
+*.sbn
+*.sbx
+
+!data/cornbelt_counties.shp
+!data/cornbelt_counties.shx
+!data/cornbelt_counties.dbf
+!data/cornbelt_counties.prj
+!data/ndvi_sample.csv
+
 
 # Mac stuff
 .DS_Store

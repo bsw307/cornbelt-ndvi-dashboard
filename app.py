@@ -6,7 +6,7 @@ from utils.data_loader import load_county_data, load_ndvi_csv
 from utils.ndvi_mapper import ndvi_csv_to_geodf, map_ndvi_to_counties
 
 # Load data
-counties = load_county_data("data/tl_2024_us_county.shp")
+counties = load_county_data("data/cornbelt_counties.shp")
 ndvi_df = load_ndvi_csv("data/ndvi_sample.csv")
 ndvi_points = ndvi_csv_to_geodf(ndvi_df)
 gdf = map_ndvi_to_counties(ndvi_points, counties)
