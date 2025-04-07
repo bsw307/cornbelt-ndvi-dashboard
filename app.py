@@ -4,7 +4,17 @@ from streamlit_folium import st_folium
 
 from utils.data_loader import load_county_data, load_ndvi_csv
 from utils.ndvi_mapper import ndvi_csv_to_geodf, map_ndvi_to_counties
-
+# Hides Streamlit's default UI
+hide_streamlit_style = """
+    <style>
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    .stDeployButton {display: none;}
+    .stToolbar {display: none;}
+    </style>
+"""
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 # Load data
 counties = load_county_data("data/cornbelt_counties.shp")
 ndvi_df = load_ndvi_csv("data/ndvi_sample.csv")
