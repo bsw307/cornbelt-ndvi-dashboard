@@ -8,7 +8,7 @@ from utils.ndvi_mapper import ndvi_csv_to_geodf, map_ndvi_to_counties
 
 st.markdown("""
     <style>
-    #MainMenu, header, footer, .stDeployButton, .st-emotion-cache-1avcm0n {
+    #MainMenu {visibility: hidden;}, header, footer {visibility: hidden;}, .stDeployButton, .st-emotion-cache-1avcm0n {
         display: none !important;
     }
     .block-container {
@@ -38,6 +38,7 @@ folium.Choropleth(
     line_color='white',    
     legend_name="NDVI"
 ).add_to(m)
+st_folium(m, width=700, height=500)
 
 # Display map
 #st.title("Corn Belt NDVI Map")
