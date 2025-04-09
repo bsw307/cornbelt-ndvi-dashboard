@@ -3,12 +3,11 @@ import folium
 from streamlit_folium import st_folium
 
 from utils.data_loader import load_county_data, load_ndvi_csv
-from utils.ndvi_mapper import ndvi_csv_to_geodf, map_ndvi_to_counties
-# Hides Streamlit's default UI
 
+# Hide Streamlit UI
 st.markdown("""
     <style>
-    #MainMenu {visibility: hidden;}, header, footer {visibility: hidden;}, .stDeployButton, .st-emotion-cache-1avcm0n {
+    #MainMenu, header, footer, .stDeployButton, .st-emotion-cache-1avcm0n {
         display: none !important;
     }
     .block-container {
@@ -19,27 +18,38 @@ st.markdown("""
     }
     </style>
 """, unsafe_allow_html=True)
-# Load data
-counties = load_county_data("data/cornbelt_counties.shp")
-ndvi_df = load_ndvi_csv("data/ndvi_sample.csv")
-ndvi_points = ndvi_csv_to_geodf(ndvi_df)
-gdf = map_ndvi_to_counties(ndvi_points, counties)
 
-# Create map
+# Load shapefile and NDVI CSV from Google Earth Engine
+counties = load_county_data("data/cornbelt_counties.shp")
+ndvi_df = load_ndvi_csv("data/CornBelt_S2_NDVI_FebMar2025.csv")
+
+# Merge NDVI values directly with county polygons using GEOID
+gdf = counties.merge(ndvi_df, on="GEOID", how="left")
+
+# Create Folium map
 m = folium.Map(location=[41.5, -93.5], zoom_start=5)
+
 folium.Choropleth(
     geo_data=gdf,
     data=gdf,
     columns=["GEOID", "NDVI"],
     key_on="feature.properties.GEOID",
     fill_color="YlGn",
-    fill_opacity=0.9,      
-    line_opacity=0.3,      
-    line_color='white',    
-    legend_name="NDVI"
+    fill_opacity=0.9,
+    line_opacity=0.3,
+    line_color='white',
+    legend_name="NDVI (March 2025)"
 ).add_to(m)
-st_folium(m, width=700, height=500)
+
+# Optional: Add hover tooltips
+folium.GeoJson(
+    gdf,
+    tooltip=folium.GeoJsonTooltip(
+        fields=["NAME", "NDVI"],
+        aliases=["County", "NDVI"],
+        localize=True
+    )
+).add_to(m)
 
 # Display map
-#st.title("Corn Belt NDVI Map")
-st_data = st_folium(m, width=700, height=500)
+st_folium(m, width=700, height=500)

@@ -11,8 +11,7 @@ def load_county_data(path):
 
 @st.cache_data
 def load_ndvi_csv(path):
-    df = pd.read_csv(path)
-    df = df[df["value"] < 9999]  # remove fill values
-    if df["value"].max() > 1.0:
-        df["value"] = df["value"] / 1000  # scale if necessary
+    df = pd.read_csv(path, usecols=["County_FIPS", "Mean_NDVI"])  # no .geo!
+    df = df.rename(columns={"County_FIPS": "GEOID", "Mean_NDVI": "NDVI"})
+    df["GEOID"] = df["GEOID"].astype(str).str.zfill(5)
     return df
